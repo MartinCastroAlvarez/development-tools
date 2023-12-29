@@ -1,0 +1,12 @@
+#!/bin/bash
+echo "Starting Spark container."
+IMAGE_NAME="spark"
+docker rm -f "${IMAGE_NAME}" 2>/dev/null
+docker run -d \
+    --name "${IMAGE_NAME}" \
+    -e ENABLE_INIT_DAEMON="false" \
+    --link "spark-master:spark-master" \
+    "bde2020/spark-python-template:latest" || (
+    echo "ERROR: Failed to start Spark Docker container."
+    exit 1
+)

@@ -1,0 +1,7 @@
+#!/bin/bash
+echo "Collecting Django static content."
+python3 manage.py collectstatic --no-input --clear || (
+    echo "ERROR: Failed to collect Django static content."
+    exit 1
+)
+echo "Django static content collected!"

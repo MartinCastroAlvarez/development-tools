@@ -1,0 +1,6 @@
+#!/bin/bash
+echo "Running Django server."
+python3 manage.py runserver || (
+    echo "ERROR: Failed to run Django server."
+    exit 1
+)

@@ -1,0 +1,5 @@
+#!/bin/bash
+cat $(gpt.file) || (
+    echo "ERROR: Failed to detect conversation."
+    exit 1
+)

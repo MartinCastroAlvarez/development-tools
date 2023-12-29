@@ -1,0 +1,19 @@
+#!/bin/bash
+clear
+echo "Linting with Flake8."
+FILES="$@"
+if [ -z "$FILES" ]
+then
+    FILES="."
+fi
+flake8\
+    --max-line-length 120 \
+    --max-complexity 17 \
+    $FILES
+LAST_COMMAND_EXIT_CODE=$?
+if [ ${LAST_COMMAND_EXIT_CODE} != 0 ]
+then
+    echo "Flake8 failed."
+    exit ${LAST_COMMAND_EXIT_CODE}
+fi
+echo "Flake8 OK!"

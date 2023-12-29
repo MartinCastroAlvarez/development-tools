@@ -1,0 +1,12 @@
+#!/bin/bash
+CONVERSATION_NAME="$1"
+if [ -z "${CONVERSATION_NAME}" ]
+then
+    echo "ERROR: Please indicate the conversation name."
+    exit 1
+fi
+echo "${CONVERSATION_NAME}" > $(gpt.file) || (
+    echo "ERROR: Failed to start conversation."
+    exit 1
+)
+echo "Started conversation '${CONVERSATION_NAME}' at $(gpt.file)"

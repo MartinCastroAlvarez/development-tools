@@ -1,0 +1,12 @@
+#!/bin/bash
+TOTAL="$1"
+if [ -z "${TOTAL}" ]
+then
+    TOTAL=1
+fi
+echo "Git logs"
+git.log | head
+echo "Squashing ${TOTAL} commit(s) on '$(git.branch)'."
+git reset --soft HEAD~${TOTAL}
+git status
+echo "Squashed ${TOTAL} commit(s) on '$(git.branch)'."

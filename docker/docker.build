@@ -1,0 +1,13 @@
+#!/bin/bash
+echo "Building Docker image."
+IMAGE_NAME="$1"
+if [ -z "${IMAGE_NAME}" ]
+then
+    echo "ERROR: Image name is required."
+    exit 31
+fi
+docker build -t "${IMAGE_NAME}" . || (
+    echo "ERROR: Failed to build Docker image."
+    exit 1
+)
+echo "Docker image built successfully!"

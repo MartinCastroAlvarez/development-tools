@@ -1,0 +1,8 @@
+#!/bin/bash
+LOG_FILE="/tmp/gpt-log-$(gpt.name | sed 's/ /-/g')"
+if [ -z "${LOG_FILE}" ]
+then
+    echo "ERROR: Failed to detect log file."
+    exit 1
+fi
+echo "${LOG_FILE}"

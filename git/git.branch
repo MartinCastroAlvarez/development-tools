@@ -1,0 +1,5 @@
+#!/bin/bash
+git rev-parse --abbrev-ref HEAD || (
+    echo "ERROR: Not at a GitHub repo!"
+    exit 4
+)

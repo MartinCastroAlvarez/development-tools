@@ -1,0 +1,10 @@
+#!/bin/bash
+echo "Starting Redis Docker container."
+IMAGE_NAME="redis"
+docker rm -f "${IMAGE_NAME}" 2>/dev/null
+docker run \
+    --name "${IMAGE_NAME}" \
+    -d "docker.io/redis" || (
+    echo "ERROR: Failed to start Redis Docker container."
+    exit 1
+)

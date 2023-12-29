@@ -1,0 +1,19 @@
+#!/bin/bash
+IMAGE_NAME="$1"
+if [ -z "${IMAGE_NAME}" ]
+then
+    echo "ERROR: Image name is required."
+    exit 31
+fi
+echo "Accesing Docker container: '${IMAGE_NAME}'."
+CONTAINER_ID=$(docker ps | grep "${IMAGE_NAME}" | awk '{print $1}')
+if [ -z "${CONTAINER_ID}" ]
+then
+    echo "ERROR: Container is not running."
+    exit 31
+fi
+echo "Docker container ID: '${CONTAINER_ID}'."
+docker exec -it "${CONTAINER_ID}" bash || (
+    echo "ERROR: Failed to run Docker image."
+    exit 1
+)

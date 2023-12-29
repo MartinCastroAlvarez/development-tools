@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Not committing to HEAD.
+if [[ "$(git.branch)" == "HEAD" ]]
+then
+    echo "ERROR: Failed to commit into '$(git.branch)'."
+    exit 3423
+fi
+
+# Evaluating if the push goes to a different branch.
+BRANCH="$(git.branch)"
+
+# Pushing to a specific branch.
+echo "Pushing '$(git.name)' into '${BRANCH}'."
+git push origin ${BRANCH} --no-verify
+if [ $? != 0 ]
+then
+    echo "ERROR: Failed to push changes."
+    exit 1823
+fi
+
+echo "Pushed '$(git.name)' into '${BRANCH}'"

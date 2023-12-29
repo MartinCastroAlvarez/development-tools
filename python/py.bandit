@@ -1,0 +1,19 @@
+#!/bin/bash
+echo "Linting with PyBandit."
+FILES="$@"
+if [ -z "$FILES" ]
+then
+    FILES="."
+fi
+bandit --recursive \
+    -ll \
+    --exclude ".env" \
+    --skip "B101" \
+    $FILES
+LAST_COMMAND_EXIT_CODE=$?
+if [ ${LAST_COMMAND_EXIT_CODE} != 0 ]
+then
+    echo "PyBandit failed."
+    exit ${LAST_COMMAND_EXIT_CODE}
+fi
+echo "PyBandit OK!"

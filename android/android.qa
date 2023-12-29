@@ -1,0 +1,65 @@
+#!/bin/bash
+echo "Running instrumented tests."
+
+# Validating Android Studio is installed/
+if [ -z "${JAVA_HOME}" ]
+then
+    echo 'ERROR: Failed to locate $JAVA_HOME'
+    echo "Install it with: yum search java | grep openjdk"
+    echo "Check it here: /usr/lib/jvm/"
+    exit 1299
+fi
+
+# Validating Android Studio is installed/
+if [ -z "${ANDROID_SDK_ROOT}" ]
+then
+    echo 'ERROR: Failed to locate $ANDROID_SDK_ROOT'
+    echo "Downoad it from: https://developer.android.com/studio#downloads"
+    exit 1289
+fi
+
+# Validating Android Studio tools are installed.
+if [ ! -d "${ANDROID_SDK_ROOT}/tools/bin" ]
+then
+    echo 'ERROR: Failed to locate $ANDROID_SDK_ROOT tools'
+    echo "Downoad it from: https://developer.android.com/studio#downloads"
+    exit 1290
+fi
+
+# Accpeting Android Studio license.
+yes | ${ANDROID_SDK_ROOT}/tools/bin/sdkmanager --licenses
+if [ $? != 0 ]
+then
+    echo 'ERROR: Failed to accept License.'
+    exit 2489
+fi
+
+# Locating the gradlew script.
+GRADLEW="./gradlew"
+if [[ ! -f "${GRADLEW}" ]]
+then
+    echo 'ERROR: Not at an Android directory.'
+    exit 1381
+fi
+
+# Validating Android Studio is installed/
+if [ ! -d "${ANDROID_SDK_ROOT}/tools/bin" ]
+then
+    echo 'ERROR: Failed to locate $ANDROID_SDK_ROOT tools'
+    echo "Downoad it from: https://developer.android.com/studio#downloads"
+    exit 1290
+fi
+
+# Changing permissions of the gradlew executable file.
+chmod 755 "${GRADLEW}"
+
+# Executing Instrumented Tests.
+{$GRADLEW} connectedAndroidTest
+LAST_COMMAND_EXIT_CODE=$?
+if [ ${LAST_COMMAND_EXIT_CODE} != 0 ]
+then
+    echo 'ERROR: Failed to run instrumented tests.'
+    exit 3183
+fi
+
+echo "Instrumented tests passed!"

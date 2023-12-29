@@ -1,0 +1,18 @@
+#!/usr/bin/python3
+
+import shutil
+import time
+import sys
+import os
+
+origin = sys.argv[1]
+tmp = os.path.join(os.sep, "tmp", str(1000 * time.time()))
+print("Removing trailing spaces from {}".format(origin))
+
+with open(tmp, "w") as fw:
+    with open(origin, "r") as fr:
+        for line in fr:
+            line = line.rstrip()
+            fw.write("{}\n".format(line))
+
+shutil.move(tmp, origin)

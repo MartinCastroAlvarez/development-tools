@@ -1,0 +1,14 @@
+#!/bin/bash
+echo "Starting Cassandra Docker container."
+IMAGE_NAME="cassandra"
+docker rm -f "${IMAGE_NAME}" 2>/dev/null
+docker run -d \
+    -e CASSANDRA_START_RPC=true \
+    -p 7000:7000 \
+    -p 9042:9042 \
+    -p 9160:9160 \
+    --name "${IMAGE_NAME}" \
+    cassandra || {
+    echo "ERROR: Failed to start Cassandra Docker container."
+    exit 1
+)

@@ -1,0 +1,7 @@
+#!/bin/bash
+MESSAGES='{"messages": []}'
+if [ -f "$(gpt.logfile)" ]
+then
+    MESSAGES=$(jq -Rn 'reduce inputs as $line ([]; . + [($line | split(" ") | {role: .[0], content: (.[1:] | join(" "))})]) | {messages: .}' $(gpt.logfile))
+fi
+echo "${MESSAGES}" | jq

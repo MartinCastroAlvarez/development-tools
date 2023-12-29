@@ -1,0 +1,13 @@
+#!/bin/bash
+echo "Starting Elasticsearch 6 Docker container."
+IMAGE_NAME="elastic7"
+docker rm -f "${IMAGE_NAME}" 2>/dev/null
+docker run -d \
+    -p 9200:9200\
+    -p 9300:9300 \
+    -e "discovery.type=single-node" \
+    --name "${IMAGE_NAME}" \
+    docker.elastic.co/elasticsearch/elasticsearch:7.10.2 || (
+    echo "ERROR: Failed to start Elasticsearch 7 Docker container."
+    exit 1
+)

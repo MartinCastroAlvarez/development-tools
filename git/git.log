@@ -1,0 +1,9 @@
+#!/bin/bash
+# https://github.com/jameslawler/git-commit-hashtags
+SEARCH="$1"
+if [ -z "${SEARCH}" ]
+then
+    git log --oneline
+else
+    git log --oneline --grep="${SEARCH}"
+fi

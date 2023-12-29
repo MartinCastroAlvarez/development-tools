@@ -1,0 +1,9 @@
+#!/bin/bash
+echo "Git status on '$(git.branch)'."
+git status \
+    --show-stash \
+    --branch \
+    --long \
+    --untracked-files "all" \
+    --renames \
+    --ahead-behind

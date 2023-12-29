@@ -1,0 +1,8 @@
+#!/bin/bash
+CONVERSATION_FILE="/tmp/gpt-conversation$(echo "$(tty)" | sed 's/\//-/g')"
+if [ -z "${CONVERSATION_FILE}" ]
+then
+    echo "ERROR: Failed to detect conversation file."
+    exit 1
+fi
+echo "${CONVERSATION_FILE}"

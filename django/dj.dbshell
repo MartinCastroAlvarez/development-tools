@@ -1,0 +1,11 @@
+#!/bin/bash
+echo.info "Running Django DB shell."
+source pip.activate
+python3 manage.py dbshell
+LAST_COMMAND_EXIT_CODE=$?
+if [ ${LAST_COMMAND_EXIT_CODE} != 0 ]
+then
+    echo.error "Failed to run Django DB shell."
+    exit ${LAST_COMMAND_EXIT_CODE}
+fi
+echo.success "Django DB shell started!"

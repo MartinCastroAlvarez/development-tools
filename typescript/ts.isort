@@ -1,0 +1,12 @@
+#!/bin/bash
+TARGET="$@"
+if [ -z "${TAGET}"]
+then
+    TARGET=*.ts
+fi
+which organize-imports-cli >/dev/null
+if [ "$?" != "0" ]
+then
+    sudo npm i -g organize-imports-cli
+fi
+organize-imports-cli ${TARGET}

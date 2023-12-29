@@ -1,0 +1,6 @@
+#!/bin/bash
+echo.info "Applying Django migrations."
+python3 manage.py migrate || (
+    echo "ERROR: Failed to appl migrations."
+    exit 1
+)

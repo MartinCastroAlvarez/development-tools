@@ -1,0 +1,24 @@
+#!/bin/bash
+echo "Starting PostgreSQL Server container."
+IMAGE_NAME="psql"
+DB_PASS="beri_diifiikuult"
+DB_USER="postgres"
+DB_NAME="concntric_db"
+DB_PORT=5432
+PROXY_PORT=5432
+docker rm -f "${IMAGE_NAME}" 2>/dev/null
+docker run -d \
+    -e "POSTGRES_USER=${DB_USER}" \
+    -e "POSTGRES_DB=${DB_NAME}" \
+    -e "POSTGRES_PASSWORD=${DB_PASS}" \
+    --name "${IMAGE_NAME}" \
+    -p "${PROXY_PORT}:${DB_PORT}" \
+    -d "postgres:10" || (
+    echo "ERROR: Failed to start PostgreSQL Server Docker container."
+    exit 1
+)
+echo ""
+echo "# Connect with:"
+echo "export PGPASSWORD='${DB_PASS}'"
+echo "psql -h '127.0.0.1' -p '${PROXY_PORT}' -d '${DB_NAME}' -U '${DB_USER}'"
+echo ""

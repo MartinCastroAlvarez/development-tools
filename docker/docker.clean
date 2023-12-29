@@ -1,0 +1,26 @@
+#!/bin/bash
+echo "File system disk space usage:"
+df -h
+echo "Docker disk space usage:"
+docker system df
+echo "Removing Docker containers..."
+docker rm -vf $(docker ps -aq)
+echo "Removing Docker images..."
+docker rmi -f $(docker images -aq)
+docker images -a | awk '{print $3}' | xargs docker rmi -f
+docker images ls
+# docker images -a | grep "<none>" | awk '{print $3}' | xargs -i{} docker rmi -f {}
+echo "Pruning Docker system..."
+docker system prune -a -f
+echo "Pruning Docker volumes..."
+docker volume prune -f
+docker volume ls | awk '{print $2}' | xargs -i{} docker volume rm -f {}
+docker volume ls
+echo "Cleaning /tmp files..."
+rm -rf /var/tmp/*
+rm -rf /tmp/*
+echo "File system disk space usage:"
+df -h
+echo "Docker disk space usage:"
+docker system df
+echo "Docker junk data cleaned!"

@@ -1,0 +1,37 @@
+#!/bin/bash
+clear
+echo "Evaluating with Radon."
+FILES="$@"
+if [ -z "$FILES" ]
+then
+    FILES="."
+fi
+echo "Detecting most Ciclomatic Complex functions:"
+radon cc $FILES --show-complexity --min B --exclude "*test_*.py"
+LAST_COMMAND_EXIT_CODE=$?
+if [ ${LAST_COMMAND_EXIT_CODE} != 0 ]
+then
+    echo "Radon CC failed."
+    exit ${LAST_COMMAND_EXIT_CODE}
+fi
+WARNING=$(radon cc $FILES --show-complexity --min C --exclude "*test_*.py")
+if [ ! -z "$WARNING" ]
+then
+    echo "Some files are too complex."
+    exit 8334
+fi
+echo "Detecting Maitainability Index:"
+radon mi $FILES --show --exclude "*test_*.py"
+LAST_COMMAND_EXIT_CODE=$?
+if [ ${LAST_COMMAND_EXIT_CODE} != 0 ]
+then
+    echo "Radon MI failed."
+    exit ${LAST_COMMAND_EXIT_CODE}
+fi
+WARNING=$(radon mi $FILES --show --min A --exclude "*test_*.py")
+if [ ! -z "$WARNING" ]
+then
+    echo "Some files are too complex."
+    exit 8334
+fi
+echo "Radon OK!"

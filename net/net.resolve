@@ -1,0 +1,17 @@
+#!/bin/bash
+# -------------------------------------------------------------
+# This script validates a DNS record.
+#
+# Usage:
+# >>> net.resolve facebook.com
+# -------------------------------------------------------------
+DOMAIN=$1
+[ -z "${DOMAIN}" ] && {
+    echo "Error: Domain is required."
+    exit 1
+}
+echo "Checking '${DOMAIN}"
+nslookup "${DOMAIN}" || {
+    echo "Error: Domain can not be found."
+    exit 1
+}

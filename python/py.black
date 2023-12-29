@@ -1,0 +1,21 @@
+#!/bin/bash
+echo "Linting with Black."
+echo "pip install git+git://github.com/psf/black"
+FILES="$@"
+if [ -z "$FILES" ]
+then
+    FILES="."
+fi
+black \
+    --target-version "py38" \
+    --line-length 120 \
+    --color \
+    --safe \
+    $FILES
+LAST_COMMAND_EXIT_CODE=$?
+if [ ${LAST_COMMAND_EXIT_CODE} != 0 ]
+then
+    echo "Black failed."
+    exit ${LAST_COMMAND_EXIT_CODE}
+fi
+echo "Black OK!"

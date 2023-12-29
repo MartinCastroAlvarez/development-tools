@@ -1,0 +1,8 @@
+#!/bin/bash
+EXTENSION="$1"
+if [ -z "${EXTENSION}" ]
+then
+    git status | egrep 'new file:|modified:' | sed 's/new file/new_file/' | awk '{print $2}' | sort | uniq
+else
+    git status | egrep 'new file:|modified:' | sed 's/new file/new_file/' | awk '{print $2}' | sort | uniq | grep "\.${EXTENSION}$"
+fi

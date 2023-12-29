@@ -1,0 +1,24 @@
+#!/bin/bash
+BRANCH="$1"
+if [ -z "$BRANCH" ]
+then
+    BRANCH=$(git.branch)
+fi
+echo "Checking out '${BRANCH}'."
+if [ -z "$(git.branch)" ]
+then
+    echo "ERROR: Not in a git repo: $(pwd)"
+    exit 3
+fi
+git reset --hard
+git config --global pull.rebase true
+git fetch --all
+git rebase --abort
+git checkout "${BRANCH}" || (
+    echo "ERROR: Failed to checkout '${BRANCH}'"
+    exit 1
+)
+git.pull
+git reset --hard "origin/${BRANCH}"
+git.branch
+echo "Checked out '${BRANCH}'."

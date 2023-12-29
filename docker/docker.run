@@ -1,0 +1,16 @@
+#!/bin/bash
+echo.info "Running Docker image."
+IMAGE_NAME="$1"
+if [ -z "${IMAGE_NAME}" ]
+then
+    echo.error "Image name is required."
+    exit 31
+fi
+sudo docker run "${IMAGE_NAME}"
+LAST_COMMAND_EXIT_CODE=$?
+if [ ${LAST_COMMAND_EXIT_CODE} != 0 ]
+then
+    echo.error "Failed to run Docker image."
+    exit ${LAST_COMMAND_EXIT_CODE}
+fi
+echo.success "Docker image run!"

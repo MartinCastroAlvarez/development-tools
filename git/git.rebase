@@ -1,0 +1,23 @@
+#!/bin/bash
+REBASED="$(git.branch)"
+BRANCH=$1
+if [ -z "${BRANCH}" ]
+then
+    BRANCH="$(git.default)"
+fi
+echo "Rebasing '${REBASED}' from '${BRANCH}'."
+clear
+git.checkout "${REBASED}"
+clear
+git.checkout "${BRANCH}"
+clear
+git.checkout "${REBASED}"
+clear
+git rebase "${BRANCH}" "${REBASED}"
+if [ $? != 0 ]
+then
+    echo "ERROR: Failed to rebase '${REBASED}' from '${BRANCH}'."
+    exit 1823
+fi
+
+echo "Rebased '${REBASED}' from '${BRANCH}'."

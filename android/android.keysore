@@ -1,0 +1,27 @@
+#!/bin/bash
+echo "Building application keystore."
+
+ALIAS="$1"
+if [ -z "${ALIAS}" ]
+then
+    echo 'ERROR: Missing alias!'
+    exit 5343
+fi
+
+keytool \
+    -genkey \
+    -v \
+    -keystore "key.jks" \
+    -keyalg "RSA" \
+    -keysize 2048 \
+    -validity 10000 \
+    -alias "${ALIAS}"
+
+LAST_COMMAND_EXIT_CODE=$?
+if [ ${LAST_COMMAND_EXIT_CODE} != 0 ]
+then
+    echo 'ERROR: Failed to generate keystore.'
+    exit 8348
+fi
+
+echo.success "Keystore built successfully'!"

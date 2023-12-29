@@ -1,0 +1,10 @@
+#!/bin/bash
+BRANCH=$(git.branch)
+echo "Pulling '${BRANCH}'."
+if [ "$(git.branch)" == "HEAD" ]
+then
+    echo "ERROR: Failed to pull from '$(git.branch)'."
+    exit 3423
+fi
+git pull origin "${BRANCH}" --squash --no-edit --quiet
+echo "Pulled '${BRANCH}'."

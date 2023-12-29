@@ -1,0 +1,31 @@
+#!/bin/bash
+echo.info "Starting SQS container."
+
+IMAGE_NAME="sqs"
+
+sudo docker rm -f "${IMAGE_NAME}" 2>/dev/null
+
+docker run --name "${IMAGE_NAME}" \
+    -sqs -p 9324:9324 -p 9325:9325 -d roribio16/alpine-sqs:latest
+
+LAST_COMMAND_EXIT_CODE=$?
+if [ ${LAST_COMMAND_EXIT_CODE} != 0 ]
+then
+    echo.error "Failed to start SQS Docker container."
+    exit ${LAST_COMMAND_EXIT_CODE}
+fi
+
+sudo docker ps | grep "${IMAGE_NAME}"
+
+echo ""
+echo "# Sending a message:"
+echo "aws --endpoint-url http://localhost:9324 sqs send-message --queue-url http://localhost:9324/queue/default --message-body \"Hello, queue!\""
+echo ""
+echo "# Retrieving messages:"
+echo "aws --endpoint-url http://localhost:9324 sqs receive-message --queue-url http://localhost:9324/queue/default --wait-time-seconds 10"
+echo ""
+echo "# Creating a queue:"
+echo "aws --endpoint-url http://localhost:9324 sqs create-queue --queue-name newqueue"
+echo ""
+
+echo.success "SQS Docker container started!"

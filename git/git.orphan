@@ -1,0 +1,14 @@
+#!/bin/bash
+echo "Deleting commit history in '$(git.name)'."
+find . -exec touch -m {} +
+find . -exec touch -c {} +
+find . -exec touch -a {} +
+git.checkout main
+TEMP_BRANCH="tmp-`date +%s`"
+echo "Checking out temporal branch: ${TEMP_BRANCH}"
+git checkout --orphan "${TEMP_BRANCH}"
+git commit -am "🚀 Initial Commit"
+git branch -D main
+git branch -m main
+git push -f origin main
+echo "Deleted commit history in '$(git.name)'."

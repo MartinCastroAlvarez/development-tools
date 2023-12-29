@@ -1,0 +1,17 @@
+#!/bin/bash
+echo "Linting with Pylama."
+FILES="$@"
+if [ -z "$FILES" ]
+then
+    FILES="."
+fi
+pylama \
+    --concurrent 2 \
+    $FILES
+LAST_COMMAND_EXIT_CODE=$?
+if [ ${LAST_COMMAND_EXIT_CODE} != 0 ]
+then
+    echo "Pylama failed."
+    exit ${LAST_COMMAND_EXIT_CODE}
+fi
+echo "Pylama OK!"

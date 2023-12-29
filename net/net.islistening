@@ -1,0 +1,22 @@
+#!/bin/bash
+# -------------------------------------------------------------
+# This script checks if $1 is listening on port $2.
+#
+# Usage:
+# >>> net.islistening 52.34.189.153 1994
+# -------------------------------------------------------------
+HOST=$1
+PORT=$2
+[ -z "${HOST}" ] && {
+    echo "Error: target is required."
+    exit 1
+}
+[ -z "${PORT}" ] && {
+    echo "Error: Port is required."
+    exit 1
+}
+echo "Checking '${HOST}:${PORT}'"
+nc $HOST $PORT || {
+    echo "Error: Host is not listening."
+    exit 1
+}

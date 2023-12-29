@@ -1,0 +1,31 @@
+#!/bin/bash
+echo "Reverting files: %@"
+
+# Detecting files to revert.
+FILES="$@"
+if [ -z "${FILES}" ]
+then
+    echo "ERROR: Missing files to be reverted."
+    exit 1
+fi
+
+# Resetting files.
+git reset -- ${FILES}
+if [ $? != 0 ]
+then
+    echo "ERROR: Failed to reset files."
+    exit 1823
+fi
+
+# Reverting files.
+git checkout -- ${FILES}
+if [ $? != 0 ]
+then
+    echo "ERROR: Failed to reset files."
+    exit 1823
+fi
+
+# Printing status.
+git.status
+
+echo "Successfully reverted files: ${FILES}"

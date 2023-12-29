@@ -1,0 +1,67 @@
+#!/bin/bash
+echo "Retriving Android device logs."
+
+# Validating Android Studio is installed/
+if [ -z "${JAVA_HOME}" ]
+then
+    echo 'ERROR: Failed to locate $JAVA_HOME'
+    echo "Install it with: yum search java | grep openjdk"
+    echo "Check it here: /usr/lib/jvm/"
+    exit 1299
+fi
+
+# Validating Android Studio is installed/
+if [ -z "${ANDROID_SDK_ROOT}" ]
+then
+    echo 'ERROR: Failed to locate $ANDROID_SDK_ROOT'
+    echo "Downoad it from: https://developer.android.com/studio#downloads"
+    exit 1289
+fi
+
+# Validating Android Studio tools are installed.
+if [ ! -d "${ANDROID_SDK_ROOT}/tools/bin" ]
+then
+    echo 'ERROR: Failed to locate $ANDROID_SDK_ROOT tools'
+    echo "Downoad it from: https://developer.android.com/studio#downloads"
+    exit 1290
+fi
+
+# Checking if android tools are installed.
+rpm -qa | grep "android-tools"
+if [ $? != 0 ]
+then
+    echo 'ERROR: Make sure android tools are installed..'
+    exit 1829
+fi
+
+# List connected devices.
+DEVICES=$(adb devices | grep "device$" | awk '{print $1}')
+if [ -z "${DEVICES}" ]
+then
+    echo 'ERROR: There are no USB devices connected.'
+    exit 9123
+fi
+
+# Detecting amount of log lines to fetch.
+LOGS="$1"
+if [ -z "${LOGS}" ]
+then
+    LOGS=1000
+fi
+
+for DEVICE in $DEVICES
+do
+    # Fetching logs from one device.
+    echo "Fetching logs from '${DEVICE}'."
+    adb -s "${DEVICE}" shell -t "logcat -T ${LOGS} *:E"
+
+    # Validating the exit code of the previous step.
+    LAST_COMMAND_EXIT_CODE=$?
+    if [ ${LAST_COMMAND_EXIT_CODE} != 0 ]
+    then
+        echo 'ERROR: Failed to run linter.'
+        exit ${LAST_COMMAND_EXIT_CODE}
+    fi
+done
+
+echo.success "All logs fetched."

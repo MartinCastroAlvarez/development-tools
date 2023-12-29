@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# Detecting question.
+QUESTION="$@"
+if [ -z "${QUESTION}" ]
+then
+    echo "ERROR: What is your question?"
+    exit 1
+fi
+
+# Building payload.
+PAYLOAD='{"messages": []}'
+PAYLOAD=$(echo "$PAYLOAD" | jq '.messages += [{"role": "user", "content": "'"${QUESTION}"'"}]')
+PAYLOAD=$(echo "$PAYLOAD" | jq '.model = "'"$(gpt.model)"'"')
+PAYLOAD=$(echo "$PAYLOAD" | jq '.max_tokens = '"$(gpt.limit)"'')
+PAYLOAD=$(echo "$PAYLOAD" | jq '.temperature = '"$(gpt.temperature)"'')
+# echo "$PAYLOAD" | jq
+
+# Asking a question to the GPT API.
+RESPONSE=$(curl -s --insecure https://api.openai.com/v1/chat/completions \
+  -H 'Content-Type: application/json' \
+  -H "Authorization: Bearer $(gpt.key)" \
+  -d "${PAYLOAD}"
+)
+if [ "$?" != "0" ]
+then
+    echo ${RESPONSE}
+    echo "ERROR: Failed to connect with the the GPT API"
+    exit 1
+fi
+
+# Parsing response text.
+TEXT=$(echo ${RESPONSE} | jq -r '.choices[0].message.content')
+if [ "$?" != "0" ]
+then
+    echo ${RESPONSE}
+    echo "ERROR: Failed to parse the response from the GPT API"
+    exit 1
+fi
+echo "${TEXT}"

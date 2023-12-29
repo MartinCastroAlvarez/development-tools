@@ -1,0 +1,59 @@
+#!/bin/bash
+echo "Deploying '$(git.name)' APK to Android."
+
+# Validating Android Studio is installed/
+if [ -z "${JAVA_HOME}" ]
+then
+    echo 'ERROR: Failed to locate $JAVA_HOME'
+    echo "Install it with: yum search java | grep openjdk"
+    echo "Check it here: /usr/lib/jvm/"
+    exit 1299
+fi
+
+# Validating Android Studio is installed/
+if [ -z "${ANDROID_SDK_ROOT}" ]
+then
+    echo 'ERROR: Failed to locate $ANDROID_SDK_ROOT'
+    echo "Downoad it from: https://developer.android.com/studio#downloads"
+    exit 1289
+fi
+
+# Locating the gradlew script.
+GRADLEW="./gradlew"
+
+# Validating there is an exacutable gradlew file.
+if [[ ! -f "${GRADLEW}" ]]
+then
+    echo 'ERROR: Not at an Android directory.'
+    exit 1381
+fi
+
+# Validating Android Studio tools are installed.
+if [ ! -d "${ANDROID_SDK_ROOT}/tools/bin" ]
+then
+    echo 'ERROR: Failed to locate $ANDROID_SDK_ROOT tools'
+    echo "Downoad it from: https://developer.android.com/studio#downloads"
+    exit 1290
+fi
+
+# Accpeting Android Studio license.
+yes | ${ANDROID_SDK_ROOT}/tools/bin/sdkmanager --licenses
+if [ $? != 0 ]
+then
+    echo 'ERROR: Failed to accept License.'
+    exit 4382
+fi
+
+# Changing permissions of the gradlew executable file.
+chmod 755 "${GRADLEW}"
+
+# Deploying app.
+${GRADLEW} installDebug --debug
+LAST_COMMAND_EXIT_CODE=$?
+if [ ${LAST_COMMAND_EXIT_CODE} != 0 ]
+then
+    echo 'ERROR: Failed to run linter.'
+    exit 4283
+fi
+
+echo.success "Deployed APK to Android successfully!"

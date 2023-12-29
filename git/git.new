@@ -1,0 +1,43 @@
+#!/bin/bash
+echo "Pushing new branch"
+
+# Change message.
+MESSAGE="$@"
+if [ -z "${MESSAGE}" ]
+then
+    echo "ERROR: Message is missing"
+    exit 432
+fi
+
+# Finding type of commit.
+ACTION="feat"
+echo "Action: ${ACTION}"
+
+# Creating a new branch.
+NEW_BRANCH="${ACTION}/$(echo.slugify "${MESSAGE}")"
+if [ "$(git.branch)" != "${NEW_BRANCH}" ]
+then
+
+    # Committing your changes.
+    git.commit "${MESSAGE}" || (
+        echo "ERROR: Failed to commit changes."
+        exit 9439
+    )
+
+    # Creating new branch.
+    if  [ "$(git.branch)" != "${NEW_BRANCH}" ]
+    then
+        git checkout -b "${NEW_BRANCH}" || (
+            echo "ERROR: Failed to create new branch."
+            exit 1399
+        )
+    fi
+fi
+
+# Pushing to the new branch.
+git.push || (
+    echo "ERROR: Failed to push changes."
+    exit 4283
+)
+
+echo "Pushed to '${NEW_BRANCH}'."
