@@ -13,8 +13,12 @@ fi
 ACTION="feat"
 echo "Action: ${ACTION}"
 
+# Generating random string.
+TIMESTAMP=$(date +%s)
+echo "Timestamp: ${TIMESTAMP}"
+
 # Creating a new branch.
-NEW_BRANCH="${ACTION}/$(echo.slugify "${MESSAGE}")"
+NEW_BRANCH="${ACTION}/${TIMESTAMP}/$(echo.slugify "${MESSAGE}")"
 if [ "$(git.branch)" != "${NEW_BRANCH}" ]
 then
 

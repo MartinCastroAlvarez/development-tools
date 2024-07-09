@@ -10,8 +10,9 @@ then
     echo "ERROR: Not in a git repo: $(pwd)"
     exit 3
 fi
+git rebase --abort
 git reset --hard
-git config --global pull.rebase true
+git config --global pull.rebase 
 git fetch --all
 git rebase --abort
 git checkout "${BRANCH}" || (
@@ -20,5 +21,7 @@ git checkout "${BRANCH}" || (
 )
 git.pull
 git reset --hard "origin/${BRANCH}"
+git.branch
+git rebase --skip
 git.branch
 echo "Checked out '${BRANCH}'."
