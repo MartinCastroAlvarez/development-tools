@@ -10,7 +10,7 @@ then
 fi
 
 # Finding type of commit.
-ACTION="feat"
+ACTION="martin"
 echo "Action: ${ACTION}"
 
 # Generating random string.
