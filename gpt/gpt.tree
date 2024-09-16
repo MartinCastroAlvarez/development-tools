@@ -17,6 +17,7 @@ FILES=$(find "$TARGET_DIRECTORY" -type f | grep -v __pycache__ | grep -v .pyc | 
 for FILE in $FILES
 do
     echo ""
+    echo ""
     echo "# File: ${FILE}"
     echo ""
     cat "$FILE"
