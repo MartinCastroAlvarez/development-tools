@@ -10,7 +10,9 @@ fi
 echo ""
 echo "# Directory tree: ${TARGET_DIRECTORY}"
 echo ""
+echo  '```'
 find streamer_agent  -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g' | grep -v pyc | grep -v __init__ | grep -v node_modules
+echo  '```'
 
 FILES=$(find "$TARGET_DIRECTORY" -type f | grep -v __pycache__ | grep -v .pyc | grep -v __init__ | grep -v node_modules)
 
@@ -20,5 +22,7 @@ do
     echo ""
     echo "# File: ${FILE}"
     echo ""
+    echo  '```'
     cat "$FILE"
+    echo  '```'
 done
