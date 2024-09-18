@@ -5,9 +5,16 @@ if [ -z "${TARGET_DIRECTORY}" ]
 then
     TARGET_DIRECTORY="."
 fi
+
 if [ ! -d "${TARGET_DIRECTORY}" ]
 then
     echo "ERROR: The target directory does not exist"
+    exit 1
+fi
+
+if [[ "${TARGET_DIRECTORY}" == "." || "${TARGET_DIRECTORY}" == "./" || "${TARGET_DIRECTORY}" == "$(pwd)" ]]
+then
+    echo "ERROR: The target directory cannot be the same as the current directory"
     exit 1
 fi
 
