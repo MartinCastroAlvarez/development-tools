@@ -22,10 +22,23 @@ echo ""
 echo "# Directory tree: ${TARGET_DIRECTORY}"
 echo ""
 echo  '```'
-find "${TARGET_DIRECTORY}" -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g' | grep -v pyc | grep -v __init__ | grep -v node_modules
+find ${TARGET_DIRECTORY} -print \
+    | grep -v node_modules \
+    | grep -v "\.next" \
+    | grep -v *.pyc$ \
+    | grep -v *.js.map$ \
+    | sed -e 's;[^/]*/;|____;g;s;____|; |;g' \
+    | grep -v node_modules
 echo  '```'
 
-FILES=$(find "$TARGET_DIRECTORY" -type f | grep -v __pycache__ | grep -v .pyc | grep -v __init__ | grep -v node_modules)
+FILES=$(
+    find "$TARGET_DIRECTORY" -type f \
+        | grep -v __pycache__ \
+        | grep -v .pyc \
+        | grep -v __init__ \
+        | grep -v "\.next" \
+        | grep -v node_modules
+)
 
 for FILE in $FILES
 do
