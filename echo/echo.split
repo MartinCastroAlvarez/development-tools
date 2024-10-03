@@ -1,0 +1,20 @@
+#!/bin/bash
+# -------------------------------------------------------------
+# Purpose:
+# Splits a string based on one separater provided as input.
+#
+# Usage:
+# >>> cat /tmp/a.csv | echo.split --separator ","
+# ... Lorem
+# ... Ipsum
+# ... Dolor
+# -------------------------------------------------------------
+source args.parse $@
+source args.require "MESSAGE"
+source args.require "SEPARATOR" "-"
+echo "${DATA}" | awk '{ 
+    split($0, arr, "'"${SEPARATOR}"'")
+    for (i in arr) {
+        print arr[i]
+    }
+}'

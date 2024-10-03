@@ -1,0 +1,15 @@
+#!/bin/bash
+# -------------------------------------------------------------
+# Purpose:
+# Prints a specific column.
+#
+# Usage:
+# >>> echo "Lorm Ipsum Dolor Sit Amet" | echo.col --number 3
+# ... "Dolor"
+# >>> echo.col --number 3 "Lorm Ipsum Dolor Sit Amet"
+# ... "Dolor"
+# -------------------------------------------------------------
+source args.parse $@
+source args.require "MESSAGE"
+source args.require "NUMBER"
+echo "${MESSAGE}" | awk "{print \$$NUMBER}"

@@ -1,0 +1,17 @@
+#!/bin/bash
+# -------------------------------------------------------------
+# Purpose:
+# Prints an success message to STDOUT
+#
+# Reference:
+# - https://misc.flogisoft.com/bash/tip_colors_and_formatting
+# - https://linux.101hacks.com/ps1-examples/prompt-color-using-tput/
+#
+# Usage:
+# >>> echo.success "Completed successfully!"
+# -------------------------------------------------------------
+tput bold
+# tput smso
+tput setaf 2
+echo "[✔] ${@}"
+tput sgr0

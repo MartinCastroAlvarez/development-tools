@@ -1,0 +1,18 @@
+#!/bin/bash
+# -------------------------------------------------------------
+# Purpose:
+# Slugify the input string so that weird characters are removed.
+#
+# Usage:
+# >>> echo.slugify "https://facebook.com/home/martin"
+# ... httpsfacebook-comhomemartin
+# -------------------------------------------------------------
+source args.parse $@
+source args.require "MESSAGE"
+echo "${MESSAGE}" \
+    | sed 's/ /-/g' \
+    | tr -cd '[:alnum:]._-' \
+    | iconv -t ascii//TRANSLIT \
+    | sed -r s/[^a-zA-Z0-9]+/-/g \
+    | sed -r s/^-+\|-+$//g \
+    | tr 'A-Z' 'a-z'

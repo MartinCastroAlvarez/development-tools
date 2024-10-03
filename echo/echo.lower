@@ -1,0 +1,14 @@
+#!/bin/bash
+# -------------------------------------------------------------
+# Purpose:
+# This script returns the lower case version of all arguments.
+#
+# Usage:
+# >>> echo.lower "Lorem Ipsum"
+# ... "lorem ipsum"
+# >>> echo "Lorem Ipsum" | echo.upper
+# ... "lorem ipsum"
+# -------------------------------------------------------------
+source args.parse $@
+source args.require "MESSAGE"
+echo "${MESSAGE}" | awk '{ print tolower($0) }'

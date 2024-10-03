@@ -1,0 +1,12 @@
+#!/bin/bash
+# -------------------------------------------------------------
+# Purpose:
+# Evaluates a math expression and prints the results to STDOUT.
+#
+# Usage:
+# >>> echo.math "1 + 15"
+# ... 16
+# >>> echo.math "3 * 4"
+# ... 12
+# -------------------------------------------------------------
+echo $(( $@ ))

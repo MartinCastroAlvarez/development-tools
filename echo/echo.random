@@ -1,0 +1,16 @@
+#!/bin/bash
+# -------------------------------------------------------------
+# Purpose:
+# Prints a random string to STDOUT
+#
+# Usage:
+# >>> echo.random
+# ... 699703765a69ba897cf5
+# >>> echo.random 10
+# ... 77dc113eae
+# >>> echo.random 30
+# ... a7dc9e024621a2cc2566ff322bc5e5
+# -------------------------------------------------------------
+source args.parse $@
+source args.require "SIZE" 20
+echo "${RANDOM}" | md5sum | head -c ${SIZE}; echo;

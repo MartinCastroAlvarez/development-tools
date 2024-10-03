@@ -1,0 +1,13 @@
+#!/bin/bash
+# -------------------------------------------------------------
+# Purpose:
+# Sorts input.
+#
+# Usage:
+# >>> ls | echo.sort | head -2
+# ... android.deploy
+# ... android.keysore
+# -------------------------------------------------------------
+source args.parse $@
+source args.require "MESSAGE"
+echo "${MESSAGE}" | sort -n

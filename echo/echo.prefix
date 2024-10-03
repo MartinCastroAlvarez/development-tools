@@ -1,0 +1,13 @@
+#!/bin/bash
+# -------------------------------------------------------------
+# Purpose:
+# Adds a prefix to all lines.
+#
+# Usage:
+# >>> echo "Lorem" | echo.prefix --prefix "Dolor"
+# ... DolorLorem
+# -------------------------------------------------------------
+source args.parse $@
+source args.require "MESSAGE"
+source args.require "PREFIX"
+echo "${MESSAGE}" | sed "s/^/$PREFIX/"

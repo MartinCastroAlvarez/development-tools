@@ -1,0 +1,15 @@
+#!/bin/bash
+# -------------------------------------------------------------
+# Purpose:
+# This script replaces one string with another.
+#
+# >>> cat /tmp/a.csv | echo.replace --this "," --with "\t"
+# ... Lorem	Ipsum	Dolor
+# ... 1	    2	3
+# ... 4	    5	6
+# -------------------------------------------------------------
+source args.parse $@
+source args.require "MESSAGE"
+source args.require "THIS"
+source args.require "WITH"
+echo "${MESSAGE}" | sed "s/$THIS/$WITH/g"

@@ -1,0 +1,13 @@
+#!/bin/bash
+# -------------------------------------------------------------
+# Purpose:
+# Prints a line to STDOUT that spans the full width of the window.
+#
+# References:
+# https://misc.flogisoft.com/bash/tip_colors_and_formatting
+# https://linux.101hacks.com/ps1-examples/prompt-color-using-tput/
+#
+# Usage:
+# >>> echo.line
+# -------------------------------------------------------------
+printf -vl "%${COLUMNS:-`tput cols 2>&-||echo 80`}s\n" && echo ${l// /-}
