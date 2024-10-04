@@ -32,7 +32,6 @@ git commit \
     --status \
     --verbose \
     --status \
-    --author "Martin Castro Alvarez <martin.castro>" \
     --cleanup "strip" \
     --date "$(date)" \
     --message  "${TITLE}" \
