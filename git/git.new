@@ -1,48 +1,57 @@
 #!/bin/bash
 echo "Pushing new branch"
 
-# Change message.
 MESSAGE="$@"
 if [ -z "${MESSAGE}" ]
 then
     echo "ERROR: Message is missing"
     exit 432
 fi
+echo "Commit message: ${MESSAGE}"
 
-# Finding type of commit.
-ACTION="martin"
-echo "Action: ${ACTION}"
+PREFIX="martin"
+echo "Branch prefix: ${PREFIX}"
 
-# Generating random string.
 TIMESTAMP=$(date +%s)
-echo "Timestamp: ${TIMESTAMP}"
+echo "Branch timestamp: ${TIMESTAMP}"
 
-# Creating a new branch.
-# NEW_BRANCH="${ACTION}/${TIMESTAMP}/$(echo.slugify "${MESSAGE}")"
-NEW_BRANCH="${ACTION}/$(echo.slugify "${MESSAGE}")"
+BRANCH_SLUG=$(echo.slugify "${MESSAGE}")
+if [[ -z "${BRANCH_SLUG}" ]]
+then
+    echo "ERROR: Message slug could not be generated"
+    exit 439
+fi
+echo "Branch slug: ${BRANCH_SLUG}"
+
+git.commit "${MESSAGE}"
+if [ "$?" != "0" ]
+then
+    echo "ERROR: Failed to commit changes!"
+    exit 9439
+fi
+
+NEW_BRANCH="${PREFIX}/${BRANCH_SLUG}"
 if [ "$(git.branch)" != "${NEW_BRANCH}" ]
 then
-
-    # Committing your changes.
-    git.commit "${MESSAGE}" || (
-        echo "ERROR: Failed to commit changes."
-        exit 9439
-    )
-
-    # Creating new branch.
-    if  [ "$(git.branch)" != "${NEW_BRANCH}" ]
+    git checkout -b "${NEW_BRANCH}"
+    if [ "$?" != "0" ]
     then
-        git checkout -b "${NEW_BRANCH}" || (
-            echo "ERROR: Failed to create new branch."
-            exit 1399
-        )
+        echo "ERROR: Failed to create new branch."
+        exit 1399
     fi
 fi
 
-# Pushing to the new branch.
-git.push || (
+if [ "$(git.branch)" != "${NEW_BRANCH}" ]
+then
+    echo "ERROR: Failed to create the new branch."
+    exit 1400
+fi
+
+git.push
+if [ "$?" != "0" ]
+then
     echo "ERROR: Failed to push changes."
-    exit 4283
-)
+    exit 4288
+fi
 
 echo "Pushed to '${NEW_BRANCH}'."

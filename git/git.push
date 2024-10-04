@@ -7,6 +7,24 @@ then
     exit 3423
 fi
 
+if [[ "$(git.branch)" == "dev" ]]
+then
+    echo "ERROR: Failed to commit into '$(git.branch)'."
+    exit 3424
+fi
+
+if [[ "$(git.branch)" == "main" ]]
+then
+    echo "ERROR: Failed to commit into '$(git.branch)'."
+    exit 3425
+fi
+
+if [[ "$(git.branch)" == "master" ]]
+then
+    echo "ERROR: Failed to commit into '$(git.branch)'."
+    exit 3426
+fi
+
 # Evaluating if the push goes to a different branch.
 BRANCH="$(git.branch)"
 

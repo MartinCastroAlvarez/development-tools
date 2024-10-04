@@ -1,42 +1,30 @@
 #!/bin/bash
+echo "Committing to '$(git.branch)' branch."
 
-# Not committing to HEAD.
 if [ "$(git.branch)" == "HEAD" ]
 then
-    echo "ERROR: Failed to commit into '$(git.branch)'."
+    echo "ERROR: Not committing to '$(git.branch)'."
     exit 3423
 fi
 
-# Detecting changes.
-echo "Detecting changes"
-git status --porcelain="v1" 2>/dev/null
-
-# Committing only if there are changes.
-if [ -z "$(git status --porcelain="v1" 2>/dev/null)" ]
+echo "Checking if there is anything to commit"
+if git diff-index --quiet HEAD --
 then
-    echo "No changes detected!"
+    echo "WARNING: No changes to commit!"
     exit 0
 fi
 
-# Adding title to commit message.
-echo "Committing '$(git.name)' into '$(git.branch)'."
-
-# Generating commit title.
 TITLE="${@}"
 if [ -z "${TITLE}" ]
 then
     TITLE="Quick fix"
 fi
+echo "Commit title: ${TITLE}"
 
-# Adding list of files updated to commit message.
 MESSAGE="-"
+echo -e "Commit message: ${MESSAGE}"
 
-# Printing commit message to stdout
-echo "${TITLE}"
-echo -e "${MESSAGE}"
-
-# Commiting changes to Git.
-echo "Commiting into '$(git.branch)'."
+echo "Committing to '$(git.branch)' in '$(git.name)'."
 git commit \
     --all \
     --branch \
@@ -55,5 +43,4 @@ then
     exit 3423
 fi
 
-# End of commit.
 echo "Commited '$(git.name)' into '$(git.branch)'."
