@@ -9,20 +9,29 @@ fi
 
 if [[ "$(git.branch)" == "dev" ]]
 then
-    echo "ERROR: Failed to commit into '$(git.branch)'."
-    exit 3424
+    echo "WARNING: Commiting to '$(git.branch)'."
+    echo "WARNING: Commiting to '$(git.branch)'."
+    echo "WARNING: Commiting to '$(git.branch)'."
+    echo "WARNING: Commiting to '$(git.branch)'."
+    echo "WARNING: Commiting to '$(git.branch)'."
 fi
 
 if [[ "$(git.branch)" == "main" ]]
 then
-    echo "ERROR: Failed to commit into '$(git.branch)'."
-    exit 3425
+    echo "WARNING: Commiting to '$(git.branch)'."
+    echo "WARNING: Commiting to '$(git.branch)'."
+    echo "WARNING: Commiting to '$(git.branch)'."
+    echo "WARNING: Commiting to '$(git.branch)'."
+    echo "WARNING: Commiting to '$(git.branch)'."
 fi
 
 if [[ "$(git.branch)" == "master" ]]
 then
-    echo "ERROR: Failed to commit into '$(git.branch)'."
-    exit 3426
+    echo "WARNING: Commiting to '$(git.branch)'."
+    echo "WARNING: Commiting to '$(git.branch)'."
+    echo "WARNING: Commiting to '$(git.branch)'."
+    echo "WARNING: Commiting to '$(git.branch)'."
+    echo "WARNING: Commiting to '$(git.branch)'."
 fi
 
 # Evaluating if the push goes to a different branch.
