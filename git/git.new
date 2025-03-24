@@ -9,7 +9,7 @@ then
 fi
 echo "Commit message: ${MESSAGE}"
 
-PREFIX="martin"
+PREFIX="feat"
 echo "Branch prefix: ${PREFIX}"
 
 TIMESTAMP=$(date +%s)
